@@ -3,7 +3,6 @@ import json
 import requests
 
 
-
 class APIException(Exception):
     pass
 
@@ -37,7 +36,8 @@ class SkyroomAPI(object):
         if params:
             data['params'] = params
         try:
-            content_data = requests.post(url, headers=self.headers, auth=None, json=data, **self.request_kwargs).content
+            content_data = requests.post(
+                url, headers=self.headers, auth=None, json=data, **self.request_kwargs).content
             try:
                 response = json.loads(content_data.decode("utf-8"))
                 if (response['ok'] == True):
@@ -54,7 +54,8 @@ class SkyroomAPI(object):
 
     # 1.Service Management
 
-    # to-be-implemented by Skyroom (hopefully) :)
+    def getService(self, params=None):
+        return self._request('getServices', params)
 
     # 2.Rooms Management
 
@@ -120,5 +121,6 @@ class SkyroomAPI(object):
     def removeUserRooms(self, params=None):
         return self._request('removeUserRooms', params)
 
+    # deprecated
     def getLoginUrl(self, params=None):
         return self._request('getLoginUrl', params)
